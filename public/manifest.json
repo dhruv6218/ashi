@@ -1,0 +1,21 @@
+{
+  "name": "Astrix AI",
+  "short_name": "Astrix",
+  "description": "Decision Intelligence for Product Teams",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1A56FF",
+  "icons": [
+    {
+      "src": "https://images.dualite.app/102e86e1-720e-45cc-9e4e-55e865135e96/asset-b9a7a63e-c65a-4fa8-9433-c13564a7364e.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "https://images.dualite.app/102e86e1-720e-45cc-9e4e-55e865135e96/asset-b9a7a63e-c65a-4fa8-9433-c13564a7364e.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
+}
