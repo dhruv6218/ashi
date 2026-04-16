@@ -7,7 +7,6 @@ import { useToast } from '../contexts/ToastContext';
 import { useNavigate } from 'react-router-dom';
 
 export const Pricing = () => {
-  const [isAnnual, setIsAnnual] = useState(true);
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal();
   const { ref: cardsRef, isVisible: cardsVisible } = useScrollReveal(0.1);
 
@@ -21,39 +20,30 @@ export const Pricing = () => {
       name: "Free",
       price: 0,
       displayPrice: "$0",
-      desc: "For solo founders validating fit. 1 workspace, limited signals, CSV imports only.",
-      features: ["1 Workspace", "500 signals/month", "Basic AI clustering", "Manual exports only", "No external integrations"],
+      period: "/month",
+      desc: "For solo founders validating fit.",
+      features: ["1 Workspace", "200 signals total", "20 accounts", "2 decisions & 1 launch", "Gemini AI only", "No team seats"],
       cta: "Start Free",
       popular: false
     },
     {
       name: "Starter",
-      price: isAnnual ? 49 : 59,
-      displayPrice: isAnnual ? "$49" : "$59",
+      price: 29,
+      displayPrice: "$29",
       period: "/month",
-      desc: "For early B2B SaaS teams. Full decision engine and basic launches.",
-      features: ["1 Workspace", "2,000 signals/month", "Unlimited AI analyses", "Jira integration", "Push decisions into execution"],
+      desc: "For early B2B SaaS teams.",
+      features: ["1 Workspace", "3,000 signals/month", "250 accounts", "Unlimited decisions", "5 active launches", "2 team seats", "Gemini + OpenRouter fallback", "Decision memo generation"],
       cta: "Upgrade to Starter",
-      popular: false
-    },
-    {
-      name: "Pro",
-      price: isAnnual ? 199 : 249,
-      displayPrice: isAnnual ? "$199" : "$249",
-      period: "/month",
-      desc: "For growing teams. Multiple workspaces, higher volume, native integrations.",
-      features: ["5 Workspaces", "15,000 signals/month", "Advanced Jira Workflows", "Up to 15 team members", "Priority Support"],
-      cta: "Upgrade to Pro",
       popular: true
     },
     {
-      name: "Enterprise",
-      price: isAnnual ? 599 : 699,
-      displayPrice: isAnnual ? "$599" : "$699",
+      name: "Pro",
+      price: 79,
+      displayPrice: "$79",
       period: "/month",
-      desc: "Custom volume, SSO, security reviews, and dedicated onboarding.",
-      features: ["Unlimited Workspaces", "Unlimited Signals", "Unlimited team members", "Google Workspace SSO", "Dedicated onboarding"],
-      cta: "Contact Sales",
+      desc: "For growing product teams.",
+      features: ["1 Workspace", "15,000 signals/month", "2,000 accounts", "Unlimited launches", "5 team seats", "Grok priority + Gemini fallback", "Faster AI processing", "Advanced proof summaries"],
+      cta: "Upgrade to Pro",
       popular: false
     }
   ];
@@ -62,7 +52,6 @@ export const Pricing = () => {
     { q: "What counts as a 'signal'?", a: "A signal is any individual piece of feedback ingested into Astrix. This could be a single support ticket, an app store review, or a row in a CSV upload." },
     { q: "Do I need a credit card to sign up?", a: "No. You can start with our Free plan completely free without entering any payment details." },
     { q: "How do payments work?", a: "We partner with Dodo Payments as our merchant of record. They securely process all global cards." },
-    { q: "Is Jira integration included in the Free plan?", a: "No, the Jira Cloud integration requires a paid plan (Starter or above) as it utilizes advanced backend workflows to push generated artifacts directly to your engineering backlog." },
     { q: "Is my data used to train your AI models?", a: "Absolutely not. We use enterprise APIs with strict zero-retention policies. Your workspace data is isolated and never used for training." },
     { q: "Can I cancel anytime?", a: "Yes, you can cancel your subscription at any time from the billing settings. You will retain access until the end of your current billing period." }
   ];
@@ -103,29 +92,14 @@ export const Pricing = () => {
             Start with our Free plan and upgrade when you're ready.
           </p>
           <p className={`text-sm text-brand-blue font-bold mb-12 transition-all duration-700 delay-100 ${headerVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-            During beta, pricing and limits are flexible for founding teams – talk to us.
+            Need Enterprise limits? Contact sales for custom volume and SSO.
           </p>
-
-          {/* Toggle */}
-          <div className={`flex items-center justify-center gap-4 transition-all duration-700 delay-200 ${headerVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-            <span className={`text-sm font-bold transition-colors ${!isAnnual ? 'text-gray-900' : 'text-gray-500'}`}>Monthly</span>
-            <button 
-              onClick={() => setIsAnnual(!isAnnual)}
-              className="w-14 h-8 bg-gray-200 rounded-full relative focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-blue/30 transition-colors"
-              aria-label="Toggle billing period"
-            >
-              <div className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow-sm transition-all duration-300 cubic-bezier(0.16,1,0.3,1) ${isAnnual ? 'left-7 bg-brand-blue' : 'left-1'}`}></div>
-            </button>
-            <span className={`text-sm font-bold flex items-center gap-2 transition-colors ${isAnnual ? 'text-gray-900' : 'text-gray-500'}`}>
-              Annual <span className="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">2 Months Free</span>
-            </span>
-          </div>
         </div>
       </div>
 
       {/* Pricing Cards */}
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 -mt-12 relative z-10 mb-32" ref={cardsRef}>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-12 -mt-12 relative z-10 mb-32" ref={cardsRef}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {tiers.map((tier, i) => (
             <div 
               key={i} 

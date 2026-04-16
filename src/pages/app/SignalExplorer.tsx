@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { AppLayout } from '../../layouts/AppLayout';
-import { Search, Hash, MessageCircle, Github, AlertCircle, X, FileSpreadsheet, Database, UploadCloud } from 'lucide-react';
+import { Search, Hash, MessageCircle, Github, AlertCircle, X, FileSpreadsheet, Database, UploadCloud, Plus } from 'lucide-react';
 import { useWorkspace } from '../../contexts/WorkspaceContext';
 import { useSignalStore, Signal } from '../../store/useSignalStore';
 import { TableSkeleton } from '../../components/ui/Skeleton';
@@ -120,8 +120,14 @@ export const SignalExplorer = () => {
       actions={
         <div className="flex gap-3">
           <button 
-            onClick={() => window.dispatchEvent(new CustomEvent('open-upload-modal'))}
+            onClick={() => addToast("Manual entry modal would open here.", "info")}
             className="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-50 transition-colors shadow-sm flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" /> Add Manual Signal
+          </button>
+          <button 
+            onClick={() => window.dispatchEvent(new CustomEvent('open-upload-modal'))}
+            className="bg-astrix-teal border border-transparent text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-astrix-darkTeal transition-colors shadow-sm flex items-center gap-2"
           >
             <UploadCloud className="w-4 h-4" /> Import CSV
           </button>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { AppLayout } from '../../layouts/AppLayout';
-import { AlertCircle, TrendingUp, TrendingDown, Radio, Clock, ArrowRight, Quote, Loader2, Building2 } from 'lucide-react';
+import { AlertCircle, TrendingUp, TrendingDown, Radio, Clock, ArrowRight, Quote, Loader2, Building2, MoreHorizontal, Merge, Split, Edit2 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { useProblemStore } from '../../store/useProblemStore';
+import { useToast } from '../../contexts/ToastContext';
 
 export const ProblemDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -13,8 +14,10 @@ export const ProblemDetail = () => {
     isLoading, 
     fetchProblemDetails 
   } = useProblemStore();
+  const { addToast } = useToast();
   
   const [activeTab, setActiveTab] = useState('overview');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -22,7 +25,6 @@ export const ProblemDetail = () => {
     }
   }, [id, fetchProblemDetails]);
 
-  // Removed 'History' and 'Comments' to ensure 100% UI honesty.
   const tabs = ['Overview', 'Evidence', 'Accounts'];
 
   const formatCurrency = (value: number) => {
@@ -34,6 +36,11 @@ export const ProblemDetail = () => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(date);
+  };
+
+  const handleAction = (action: string) => {
+    addToast(`${action} action triggered. This would open a modal in production.`, "info");
+    setIsMenuOpen(false);
   };
 
   if (isLoading) {
@@ -59,9 +66,26 @@ export const ProblemDetail = () => {
       title={currentProblem.title} 
       subtitle={`Canonical Problem • Created ${formatDate(currentProblem.created_at)}`}
       actions={
-        <Link to="/app/opportunities" className="bg-brand-blue text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-2 w-full sm:w-auto justify-center mt-2 sm:mt-0">
-          View Opportunities <ArrowRight className="w-4 h-4" />
-        </Link>
+        <div className="flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0">
+          <div className="relative">
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="bg-white border border-gray-200 text-gray-700 p-2 rounded-lg hover:bg-gray-50 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue"
+            >
+              <MoreHorizontal className="w-5 h-5" />
+            </button>
+            {isMenuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-xl z-50 py-1 animate-[fadeIn_0.15s_ease-out]">
+                <button onClick={() => handleAction('Rename')} className="w-full text-left px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-50 flex items-center gap-2"><Edit2 className="w-4 h-4"/> Rename Problem</button>
+                <button onClick={() => handleAction('Merge')} className="w-full text-left px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-50 flex items-center gap-2"><Merge className="w-4 h-4"/> Merge with another</button>
+                <button onClick={() => handleAction('Split')} className="w-full text-left px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-50 flex items-center gap-2"><Split className="w-4 h-4"/> Split Problem</button>
+              </div>
+            )}
+          </div>
+          <Link to="/app/opportunities" className="bg-brand-blue text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-2 justify-center">
+            Create Opportunity <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
       }
     >
       {/* Top Stats Bar */}

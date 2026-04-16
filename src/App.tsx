@@ -32,7 +32,9 @@ import { Step3Results } from './pages/onboarding/Step3Results';
 // App Pages
 import { Dashboard } from './pages/app/Dashboard';
 import { SignalExplorer } from './pages/app/SignalExplorer';
-import { AskAssistant } from './pages/app/AskAssistant';
+import { SignalDetail } from './pages/app/SignalDetail';
+import { AccountsList } from './pages/app/AccountsList';
+import { AccountDetail } from './pages/app/AccountDetail';
 import { ProblemsList } from './pages/app/ProblemsList';
 import { ProblemDetail } from './pages/app/ProblemDetail';
 import { OpportunitiesList } from './pages/app/OpportunitiesList';
@@ -43,7 +45,8 @@ import { DecisionDetail } from './pages/app/DecisionDetail';
 import { ArtifactStudio } from './pages/app/ArtifactStudio';
 import { PostLaunchTracker } from './pages/app/PostLaunchTracker';
 import { LaunchDetail } from './pages/app/LaunchDetail';
-import { IntegrationsHub } from './pages/app/IntegrationsHub';
+import { ReviewsDue } from './pages/app/ReviewsDue';
+import { ActivityFeed } from './pages/app/ActivityFeed';
 import { Settings } from './pages/app/Settings';
 
 function App() {
@@ -79,7 +82,12 @@ function App() {
 
               {/* Protected Main App Routes */}
               <Route path="/app" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              
               <Route path="/app/signals" element={<ProtectedRoute><SignalExplorer /></ProtectedRoute>} />
+              <Route path="/app/signals/:id" element={<ProtectedRoute><SignalDetail /></ProtectedRoute>} />
+              
+              <Route path="/app/accounts" element={<ProtectedRoute><AccountsList /></ProtectedRoute>} />
+              <Route path="/app/accounts/:id" element={<ProtectedRoute><AccountDetail /></ProtectedRoute>} />
               
               <Route path="/app/problems" element={<ProtectedRoute><ProblemsList /></ProtectedRoute>} />
               <Route path="/app/problems/:id" element={<ProtectedRoute><ProblemDetail /></ProtectedRoute>} />
@@ -95,10 +103,9 @@ function App() {
               
               <Route path="/app/launches" element={<ProtectedRoute><PostLaunchTracker /></ProtectedRoute>} />
               <Route path="/app/launches/:id" element={<ProtectedRoute><LaunchDetail /></ProtectedRoute>} />
+              <Route path="/app/reviews-due" element={<ProtectedRoute><ReviewsDue /></ProtectedRoute>} />
               
-              <Route path="/app/ask" element={<ProtectedRoute><AskAssistant /></ProtectedRoute>} />
-              
-              <Route path="/app/integrations" element={<ProtectedRoute><IntegrationsHub /></ProtectedRoute>} />
+              <Route path="/app/activity" element={<ProtectedRoute><ActivityFeed /></ProtectedRoute>} />
               <Route path="/app/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
               
               {/* Catch all 404 */}

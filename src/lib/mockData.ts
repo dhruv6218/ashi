@@ -15,9 +15,9 @@ export const MOCK_WORKSPACE = {
 };
 
 export const MOCK_ACCOUNTS = [
-  { id: 'acc-1', workspace_id: 'ws-1', name: 'CloudScale Inc', domain: 'cloudscale.com', arr: 1200000, plan: 'Enterprise', health_score: 'Low', signal_count: 12, last_signal_date: new Date().toISOString(), created_at: new Date().toISOString() },
-  { id: 'acc-2', workspace_id: 'ws-1', name: 'TechFlow', domain: 'techflow.io', arr: 840000, plan: 'Enterprise', health_score: 'Medium', signal_count: 8, last_signal_date: new Date().toISOString(), created_at: new Date().toISOString() },
-  { id: 'acc-3', workspace_id: 'ws-1', name: 'DataSync', domain: 'datasync.co', arr: 45000, plan: 'Pro', health_score: 'High', signal_count: 3, last_signal_date: new Date().toISOString(), created_at: new Date().toISOString() },
+  { id: 'acc-1', workspace_id: 'ws-1', name: 'CloudScale Inc', domain: 'cloudscale.com', arr: 1200000, plan: 'Enterprise', segment: 'Enterprise', health_score: 'Low', signal_count: 12, last_signal_date: new Date().toISOString(), created_at: new Date().toISOString() },
+  { id: 'acc-2', workspace_id: 'ws-1', name: 'TechFlow', domain: 'techflow.io', arr: 840000, plan: 'Enterprise', segment: 'Mid-Market', health_score: 'Medium', signal_count: 8, last_signal_date: new Date().toISOString(), created_at: new Date().toISOString() },
+  { id: 'acc-3', workspace_id: 'ws-1', name: 'DataSync', domain: 'datasync.co', arr: 45000, plan: 'Pro', segment: 'SMB', health_score: 'High', signal_count: 3, last_signal_date: new Date().toISOString(), created_at: new Date().toISOString() },
 ];
 
 export const MOCK_PROBLEMS = [
@@ -47,7 +47,8 @@ export const MOCK_ARTIFACTS = [
 ];
 
 export const MOCK_LAUNCHES = [
-  { id: 'launch-1', workspace_id: 'ws-1', decision_id: 'dec-1', title: 'SAML SSO Integration Missing', action: 'Build', jira_url: 'https://jira.com/AST-123', launched_at: new Date(Date.now() - 7 * 86400000).toISOString(), created_by: 'user-1', created_at: new Date().toISOString(), status: 'active' as const }
+  { id: 'launch-1', workspace_id: 'ws-1', decision_id: 'dec-1', title: 'SAML SSO Integration Missing', action: 'Build', jira_url: 'https://jira.com/AST-123', launched_at: new Date(Date.now() - 35 * 86400000).toISOString(), created_by: 'user-1', created_at: new Date().toISOString(), status: 'pending_review' as const },
+  { id: 'launch-2', workspace_id: 'ws-1', decision_id: 'dec-2', title: 'Fix API Rate Limits', action: 'Fix', jira_url: 'https://jira.com/AST-124', launched_at: new Date(Date.now() - 2 * 86400000).toISOString(), created_by: 'user-1', created_at: new Date().toISOString(), status: 'active' as const }
 ];
 
 export const MOCK_MEMBERS = [
@@ -63,5 +64,7 @@ export const MOCK_CHANGELOGS = [
 ];
 
 export const MOCK_AUDIT_LOGS = [
-  { id: 'al-1', workspace_id: 'ws-1', user_id: 'user-1', action_type: 'decision_created', description: 'Logged decision to Build SAML SSO', created_at: new Date().toISOString(), users: { full_name: 'Demo User' } }
+  { id: 'al-1', workspace_id: 'ws-1', user_id: 'user-1', action_type: 'decision_created', description: 'Logged decision to Build SAML SSO', created_at: new Date(Date.now() - 86400000).toISOString(), users: { full_name: 'Demo User' } },
+  { id: 'al-2', workspace_id: 'ws-1', user_id: 'user-1', action_type: 'signal_uploaded', description: 'Imported 45 signals via CSV', created_at: new Date(Date.now() - 172800000).toISOString(), users: { full_name: 'Demo User' } },
+  { id: 'al-3', workspace_id: 'ws-1', user_id: 'user-1', action_type: 'problem_clustered', description: 'AI clustered 12 signals into "API Rate Limits"', created_at: new Date(Date.now() - 259200000).toISOString(), users: { full_name: 'System AI' } }
 ];

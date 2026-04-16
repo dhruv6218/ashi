@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Search, Layers, TrendingUp, CheckCircle, 
-  MessageCircle, Plug, Settings, LogOut, Bell, Menu, X, ChevronDown, Check, Plus,
-  FileText, Rocket
+  Building2, Settings, LogOut, Bell, Menu, X, ChevronDown, Check, Plus,
+  Rocket, ClipboardCheck, Activity
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useWorkspace } from '../contexts/WorkspaceContext';
@@ -24,17 +24,23 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, title, subtitle,
   
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsWorkspaceDropdownOpen(false);
+    setIsProfileDropdownOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsWorkspaceDropdownOpen(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setIsProfileDropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -49,13 +55,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, title, subtitle,
   const navItems = [
     { name: 'Home', path: '/app', icon: LayoutDashboard },
     { name: 'Signals', path: '/app/signals', icon: Search },
+    { name: 'Accounts', path: '/app/accounts', icon: Building2 },
     { name: 'Problems', path: '/app/problems', icon: Layers },
     { name: 'Opportunities', path: '/app/opportunities', icon: TrendingUp },
     { name: 'Decisions', path: '/app/decisions', icon: CheckCircle },
-    { name: 'Artifacts', path: '/app/artifacts', icon: FileText },
     { name: 'Launches', path: '/app/launches', icon: Rocket },
-    { name: 'Ask AI', path: '/app/ask', icon: MessageCircle },
-    { name: 'Integrations', path: '/app/integrations', icon: Plug },
+    { name: 'Reviews Due', path: '/app/reviews-due', icon: ClipboardCheck },
     { name: 'Settings', path: '/app/settings', icon: Settings },
   ];
 
@@ -79,7 +84,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, title, subtitle,
         
         <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800 shrink-0">
           <Link to="/app" className="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-astrix-teal rounded-md">
-            <span className="font-heading text-lg font-black tracking-tighter text-white">ASTRIX AI</span>
+            <span className="font-heading text-lg font-black tracking-tighter text-white">ASTRIX</span>
           </Link>
           <button className="md:hidden text-slate-400 hover:text-white" onClick={() => setIsMobileMenuOpen(false)}>
             <X className="w-5 h-5" />
@@ -163,9 +168,9 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, title, subtitle,
           })}
         </nav>
 
-        <div className="p-4 border-t border-slate-800 shrink-0">
+        <div className="p-4 border-t border-slate-800 shrink-0 relative" ref={profileRef}>
           <button 
-            onClick={handleSignOut}
+            onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
             className="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-sidebar-hover transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-astrix-teal group"
           >
             <div className="flex items-center gap-3 overflow-hidden">
@@ -177,8 +182,22 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, title, subtitle,
                 <span className="text-xs text-slate-400 truncate w-full text-left">{user?.email}</span>
               </div>
             </div>
-            <LogOut className="w-4 h-4 text-slate-500 group-hover:text-brand-red transition-colors shrink-0 ml-2" />
+            <ChevronDown className={`w-4 h-4 text-slate-500 group-hover:text-white transition-transform shrink-0 ml-2 ${isProfileDropdownOpen ? 'rotate-180' : ''}`} />
           </button>
+
+          {isProfileDropdownOpen && (
+            <div className="absolute bottom-full left-4 right-4 mb-2 bg-slate-800 border border-slate-700 rounded-xl shadow-xl overflow-hidden z-50 animate-[fadeIn_0.2s_ease-out]">
+              <div className="p-2 space-y-1">
+                <Link to="/app/activity" className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 rounded-lg transition-colors">
+                  <Activity className="w-4 h-4" /> Activity Feed
+                </Link>
+                <div className="h-px bg-slate-700 my-1"></div>
+                <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-red-400 hover:text-red-300 hover:bg-slate-700 rounded-lg transition-colors">
+                  <LogOut className="w-4 h-4" /> Sign Out
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </aside>
 
@@ -199,7 +218,11 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, title, subtitle,
             </div>
           </div>
           
-          <div className="flex items-center gap-2 md:gap-4 shrink-0">
+          <div className="flex items-center gap-4 flex-1 justify-end">
+            <div className="hidden md:flex items-center bg-gray-100 rounded-lg px-3 py-1.5 w-64 border border-gray-200 focus-within:ring-2 focus-within:ring-astrix-teal transition-all">
+              <Search className="w-4 h-4 text-gray-400 mr-2" />
+              <input type="text" placeholder="Search workspace..." className="bg-transparent border-none outline-none text-sm w-full text-gray-900 placeholder-gray-500" />
+            </div>
             {actions && <div className="hidden sm:block">{actions}</div>}
             <div className="h-6 w-[1px] bg-gray-200 mx-1 md:mx-2 hidden sm:block"></div>
             <button className="text-gray-400 hover:text-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-astrix-teal rounded-full p-1.5 md:p-1 relative">

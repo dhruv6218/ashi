@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AppLayout } from '../../layouts/AppLayout';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import {
-  Rocket, CheckCircle2, Clock, ArrowLeft, LayoutGrid, Save, Loader2
+  Rocket, CheckCircle2, Clock, ArrowLeft, LayoutGrid, Save, Loader2, FileText
 } from 'lucide-react';
 import { useToast } from '../../contexts/ToastContext';
 import { useLaunchStore } from '../../store/useLaunchStore';
@@ -102,6 +102,23 @@ export const LaunchDetail = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
+
+          {/* Proof Summary Section */}
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-sm">
+            <h3 className="font-heading text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <FileText className="w-5 h-5 text-gray-400" /> Proof Summary
+            </h3>
+            <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
+              <p className="text-sm text-gray-700 font-medium leading-relaxed mb-4">
+                This launch was backed by significant evidence indicating a high churn risk among Enterprise accounts if SAML SSO was not implemented.
+              </p>
+              <ul className="list-disc pl-5 space-y-2 text-sm text-gray-600 font-medium">
+                <li><strong>84 Signals</strong> clustered into the original problem.</li>
+                <li><strong>$2.04M ARR</strong> at risk across affected accounts.</li>
+                <li><strong>Decision Rationale:</strong> "This is blocking $2M+ in Enterprise renewals. The engineering effort is estimated at 3 sprints, which is highly justified by the ARR retention."</li>
+              </ul>
+            </div>
+          </div>
 
           {/* Simple Outcome Form */}
           <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 shadow-sm">

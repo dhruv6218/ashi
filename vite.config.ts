@@ -33,4 +33,9 @@ function __dualiteSourceLoc({ types: t }) {
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./vitest.setup.ts'],
+    globals: true,
+  }
 });
